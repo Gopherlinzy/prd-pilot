@@ -26,8 +26,8 @@ const BlockType = {
   QUOTE: 15,
   TODO: 17,
   DIVIDER: 22,
-  TABLE: 27,
-  TABLE_CELL: 28,
+  TABLE: 31,
+  TABLE_CELL: 32,
   CALLOUT: 34,
 } as const;
 
@@ -89,7 +89,10 @@ interface FeishuBlock {
   todo?: FeishuTextBody;
   code?: FeishuTextBody;
   callout?: { body?: { elements?: FeishuTextElement[] } };
-  table?: { rows?: number; columns?: number; cells?: string[] };
+  table?: {
+    rows?: number; columns?: number; cells?: string[];
+    property?: { row_size?: number; column_size?: number };
+  };
 }
 
 // ============================================================
@@ -253,6 +256,8 @@ export class FeishuAdapter implements DocumentAdapter {
       calloutLines: string[];
       tableBlocks: FeishuBlock[];
       orderedItems: string[];
+      /** 是否正在收集验收标准（遇到"验收标准"quote 后置 true） */
+      _collectingAC: boolean;
     }
 
     const flatSections: FlatSection[] = [];
@@ -272,6 +277,7 @@ export class FeishuAdapter implements DocumentAdapter {
           calloutLines: [],
           tableBlocks: [],
           orderedItems: [],
+          _collectingAC: false,
         };
         flatSections.push(current);
         continue;
@@ -281,12 +287,34 @@ export class FeishuAdapter implements DocumentAdapter {
 
       switch (block.block_type) {
         case BlockType.TEXT:
-        case BlockType.BULLET:
-        case BlockType.QUOTE:
         case BlockType.TODO:
         case BlockType.CODE: {
           const text = extractBlockText(block);
           if (text) current.contentLines.push(text);
+          // 非 bullet/quote → 停止收集 AC
+          current._collectingAC = false;
+          break;
+        }
+        case BlockType.QUOTE: {
+          const text = extractBlockText(block);
+          if (text) {
+            current.contentLines.push(text);
+            // "验收标准：" quote → 开始收集后续 bullet 作为 AC
+            if (isAcceptanceCriteriaSection(text)) {
+              current._collectingAC = true;
+            }
+          }
+          break;
+        }
+        case BlockType.BULLET: {
+          const text = extractBlockText(block);
+          if (text) {
+            current.contentLines.push(text);
+            // 如果正在收集验收标准，将 bullet 条目加入 calloutLines
+            if (current._collectingAC) {
+              current.calloutLines.push(text);
+            }
+          }
           break;
         }
         case BlockType.ORDERED: {
@@ -295,6 +323,8 @@ export class FeishuAdapter implements DocumentAdapter {
             current.contentLines.push(text);
             current.orderedItems.push(text);
           }
+          // 有序列表也停止 AC 收集
+          current._collectingAC = false;
           break;
         }
         case BlockType.CALLOUT: {
@@ -380,7 +410,9 @@ export class FeishuAdapter implements DocumentAdapter {
     for (const fs of flatSections) {
       for (const tb of fs.tableBlocks) {
         if (!tb.table) continue;
-        const { rows, columns, cells } = tb.table;
+        const cells = tb.table.cells;
+        const rows = tb.table.property?.row_size ?? tb.table.rows;
+        const columns = tb.table.property?.column_size ?? tb.table.columns;
         if (!rows || !columns || !cells || rows < 2 || columns < 2) continue;
 
         // 用 blocks 查找 cell 内容 — cells 是 block_id 列表
