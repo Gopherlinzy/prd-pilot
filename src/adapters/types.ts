@@ -29,6 +29,18 @@ export interface AdapterConfig {
   options?: Record<string, unknown>;
 }
 
+/** 飞书适配器专用配置 */
+export interface FeishuAdapterConfig {
+  /** 飞书应用 App ID */
+  appId: string;
+  /** 飞书应用 App Secret */
+  appSecret: string;
+  /** 自定义域名（私有化部署），默认 https://open.feishu.cn */
+  baseUrl?: string;
+  /** 请求超时（毫秒），默认 30000 */
+  timeoutMs?: number;
+}
+
 /**
  * DocumentAdapter — the core abstraction for document sources.
  *
