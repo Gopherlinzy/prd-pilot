@@ -1,0 +1,43 @@
+{
+  "name": "prd-pilot",
+  "version": "0.1.0",
+  "description": "需求驱动的开发质量守护系统 — 从 PRD 到代码的全链路质量闭环",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "prd",
+    "requirements",
+    "linter",
+    "feishu",
+    "lark",
+    "openclaw"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.35.0",
+    "@octokit/rest": "^20.0.0",
+    "dotenv": "^16.0.0",
+    "openai": "^4.70.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}
