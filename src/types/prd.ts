@@ -41,19 +41,26 @@ export const RequirementSchema = z.object({
 export type Requirement = z.infer<typeof RequirementSchema>;
 
 /** A section/chapter in the PRD document */
-export const PRDSectionSchema = z.object({
+export interface PRDSection {
   /** Section identifier */
-  id: z.string(),
+  id: string;
   /** Section title */
-  title: z.string(),
+  title: string;
   /** Raw text content */
-  content: z.string(),
+  content: string;
   /** Nesting level (1 = top-level heading) */
-  level: z.number().int().min(1).max(6).default(1),
+  level: number;
   /** Child sections */
-  children: z.array(z.lazy(() => PRDSectionSchema)).default([]),
-});
-export type PRDSection = z.infer<typeof PRDSectionSchema>;
+  children: PRDSection[];
+}
+
+export const PRDSectionSchema: z.ZodType<PRDSection> = z.lazy(() => z.object({
+  id: z.string(),
+  title: z.string(),
+  content: z.string(),
+  level: z.number().int().min(1).max(6).default(1),
+  children: z.array(PRDSectionSchema).default([]),
+})) as z.ZodType<PRDSection>;
 
 /** The complete structured PRD document */
 export const PRDDocumentSchema = z.object({
