@@ -4,6 +4,8 @@
 
 PRD Pilot bridges the gap between product requirements and codebase reality. It detects conflicts, gaps, and implementation risks *before* coding begins — saving hours of rework.
 
+📖 **Blog Post / 博客文章**: [AI 写代码之前，先让它读懂 PRD——PRD Pilot 的设计与思考](https://linzyblog.netlify.app/2026/03/28/prd-pilot-design-and-thoughts/)
+
 [中文文档](#中文文档) | [English](#features)
 
 ---
