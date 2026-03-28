@@ -16,6 +16,33 @@ PRD Pilot bridges the gap between product requirements and codebase reality. It 
 - 📄 **Documentation Health Check** — Detect stale/inaccurate docs before relying on them
 - 🗺️ **Auto Code Map** — Generate codebase understanding when docs are insufficient
 
+## PRD Input Sources
+
+PRD Pilot supports multiple input methods:
+
+| Source | Method | Example |
+|--------|--------|---------|
+| **Local file** | Direct file path | `prd:audit ./docs/prd-v1.md` |
+| **Feishu Doc** | Feishu MCP API (auto-detect URL) | `prd:audit https://xxx.feishu.cn/docx/xxx` |
+| **Feishu Wiki** | Feishu Wiki API | `prd:audit https://xxx.feishu.cn/wiki/xxx` |
+
+### Feishu Integration
+
+PRD Pilot natively supports **Feishu (飞书)** documents as PRD input:
+
+- **Auto-detection**: Paste a Feishu doc/wiki URL and PRD Pilot automatically extracts content via Feishu MCP API
+- **Rich format support**: Tables, headings, lists, and inline styles are preserved during extraction
+- **No manual export**: No need to copy-paste or download — read directly from Feishu
+- **Works with**: `feishu_doc` (read action) and `feishu_wiki` (get action) APIs
+
+```
+# Read PRD from Feishu doc
+prd:audit https://your-org.feishu.cn/docx/xxxxxx
+
+# Read PRD from Feishu wiki
+prd:audit https://your-org.feishu.cn/wiki/xxxxxx
+```
+
 ## How It Works
 
 PRD Pilot operates in three phases:
@@ -152,6 +179,23 @@ MIT
 - 🔎 **代码审查** — 验证 PR 变更是否符合计划（范围合规+覆盖率）
 - 📄 **文档健康检查** — 检测过期/不准确的项目文档
 - 🗺️ **自动代码地图** — 当文档不足时自动生成代码库理解
+
+## PRD 输入来源
+
+| 来源 | 方式 | 示例 |
+|------|------|------|
+| **本地文件** | 直接文件路径 | `prd:audit ./docs/prd-v1.md` |
+| **飞书文档** | 飞书 MCP API（自动识别 URL）| `prd:audit https://xxx.feishu.cn/docx/xxx` |
+| **飞书知识库** | 飞书 Wiki API | `prd:audit https://xxx.feishu.cn/wiki/xxx` |
+
+### 飞书集成
+
+PRD Pilot 原生支持**飞书文档**作为 PRD 输入：
+
+- **自动识别**：粘贴飞书链接，自动通过飞书 MCP API 提取内容
+- **富格式保留**：表格、标题、列表、行内样式在提取时完整保留
+- **无需手动导出**：无需复制粘贴或下载，直接从飞书读取
+- **支持接口**：`feishu_doc`（read）和 `feishu_wiki`（get）
 
 ## 工作流程
 
