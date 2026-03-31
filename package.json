@@ -9,7 +9,8 @@
     "dev": "tsc --watch",
     "lint": "tsc --noEmit",
     "test": "echo \"TODO: add tests\" && exit 0",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "smoke": "npx tsx src/test-smoke.ts"
   },
   "keywords": [
     "prd",

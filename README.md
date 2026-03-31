@@ -106,7 +106,7 @@ npx prd-pilot review --pr owner/repo#42 --prd https://your-org.feishu.cn/docx/AB
 ## 🛠️ Development
 
 ```bash
-git clone https://github.com/your-username/prd-pilot.git
+git clone https://github.com/Gopherlinzy/prd-pilot.git
 cd prd-pilot
 npm install
 npm run build
