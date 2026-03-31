@@ -90,7 +90,7 @@ Plan + Git Diff → Scope Check → Coverage Mapping → Review Report
 cp -r prd-pilot ~/.openclaw/skills/
 
 # Or clone this repo
-git clone https://github.com/linzy/prd-pilot.git ~/.openclaw/skills/prd-pilot
+git clone https://github.com/Gopherlinzy/prd-pilot.git ~/.openclaw/skills/prd-pilot
 ```
 
 ### As a Claude Code Skill
@@ -225,10 +225,10 @@ PRD Pilot 原生支持**飞书文档**作为 PRD 输入：
 
 ```bash
 # OpenClaw 用户
-git clone https://github.com/linzy/prd-pilot.git ~/.openclaw/skills/prd-pilot
+git clone https://github.com/Gopherlinzy/prd-pilot.git ~/.openclaw/skills/prd-pilot
 
 # Claude Code 用户
-git clone https://github.com/linzy/prd-pilot.git ~/.claude/skills/prd-pilot
+git clone https://github.com/Gopherlinzy/prd-pilot.git ~/.claude/skills/prd-pilot
 ```
 
 ## 使用方法
